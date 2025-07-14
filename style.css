@@ -1,0 +1,47 @@
+/* style.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  color: #222;
+}
+
+/* Container for the search bar */
+.search-container {
+  margin-top: 20px;
+}
+
+/* Style for the input field */
+input[type="text"] {
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Style for the search button */
+button {
+  padding: 10px 15px;
+  margin-left: 10px;
+  border: none;
+  background-color: #007acc;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #005fa3;
+}
+
+/* Area where search result appears */
+#searchResult {
+  margin-top: 20px;
+  font-weight: bold;
+}
