@@ -3,12 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Webpage</title>
+    <title>My Simple Webpage with Search</title>
+    <style>
+        /* Basic styling for the search bar and content */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        #searchBar {
+            padding: 8px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .search-container {
+            margin-bottom: 30px; /* Space below the search bar */
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+    </style>
 </head>
 <body>
 
-    <h1>Welcome to My Webpage!</h1>
-    <p>This is a very basic HTML page. You can add more content here.</p>
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="Search content...">
+        <button onclick="searchContent()">Search</button>
+    </div>
+
+    <div id="contentToSearch">
+        <h1>Welcome to My Webpage!</h1>
+        <p>This is a very basic HTML page. You can add more content here. For example, you might have sections about **products**, **services**, or general **information** about your company.</p>
+
+        <h2>About Us</h2>
+        <p>We strive to provide excellent **solutions** and support to our users. Our team is dedicated to innovation and customer satisfaction. We are constantly improving our offerings to meet your **needs**.</p>
+
+        <h3>Our Vision</h3>
+        <p>To be a leader in delivering user-friendly and effective **technologies** that simplify daily tasks and enhance productivity.</p>
+    </div>
+
+    <script>
+        function searchContent() {
+            const searchInput = document.getElementById('searchBar');
+            const searchTerm = searchInput.value.toLowerCase().trim(); // Trim whitespace
+
+            // Get the div containing all the content to be searched
+            const contentDiv = document.getElementById('contentToSearch');
+
+            // IMPORTANT: Get the original HTML content to restore it before searching again.
+            // This prevents nested highlights and messed-up HTML.
+            // A more robust solution for larger content would involve parsing the DOM
+            // node by node, but for simple cases, this is often sufficient if content isn't huge.
+            // For this example, we'll use a simpler reset before each search.
+            // For robust highlighting without DOM manipulation issues, you'd typically
+            // re-render the content or use a dedicated library.
+            // For demonstration, we'll just remove existing highlights.
+
+            // First, remove any existing highlights from previous searches
+            // We use a temporary div to parse the current HTML, remove highlights, then get its innerHTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = contentDiv.innerHTML;
+            const highlightedSpans = tempDiv.querySelectorAll('.highlight');
+            highlightedSpans.forEach(span => {
+                const parent = span.parentNode;
+                // Replace the span with its inner text
+                parent.replaceChild(document.createTextNode(span.textContent), span);
+            });
+            contentDiv.innerHTML = tempDiv.innerHTML; // Restore the clean HTML
+
+            if (searchTerm) {
+                // Find and highlight matches
+                // Use a regular expression to find the searchTerm globally and case-insensitively
+                const regex = new RegExp(`(${searchTerm})`, 'gi');
+
+                // We need to re-parse the DOM or work with text nodes to avoid breaking HTML tags.
+                // A simpler, but less robust method for simple cases:
+                let originalHtml = contentDiv.innerHTML;
+
+                // Only replace if the search term is found to avoid unnecessary DOM changes
+                if (originalHtml.toLowerCase().includes(searchTerm)) {
+                    contentDiv.innerHTML = originalHtml.replace(regex, '<span class="highlight">$&</span>');
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>
